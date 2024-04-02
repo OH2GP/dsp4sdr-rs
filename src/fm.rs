@@ -3,7 +3,7 @@ use num::{Complex, Num, Zero};
 pub type IQ<T> = Complex<T>;
 
 /// A trait for types the FM Demodulator can process.
-/// Always IQ<T> in and <T> out.
+/// Always IQ\<T> in and \<T> out.
 pub trait SampleType: Copy + Num + Zero {
     type Reg: Copy + Num + Zero;
     unsafe fn set_reg(x: *const Complex<Self>, reg: *mut Complex<Self::Reg>);
