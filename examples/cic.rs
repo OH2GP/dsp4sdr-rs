@@ -1,7 +1,6 @@
-extern crate time;
-extern crate sdr;
-use sdr::CIC;
-use sdr::IQ;
+extern crate dsp4sdr;
+use dsp4sdr::CIC;
+use dsp4sdr::IQ;
 
 #[cfg_attr(test, allow(dead_code))]
 fn main() {
@@ -22,13 +21,13 @@ fn bench_scalar() {
         x.push(3); x.push(7); x.push(4); x.push(6);
         x.push(3); x.push(7); x.push(4); x.push(6);
     }
-    let t0 = time::precise_time_ns();
+    let now = std::time::Instant::now();
     for _ in 0..n_repeats {
         cic.process(&x);
     }
-    let t1 = time::precise_time_ns();
+    let elapsed_time = now.elapsed();
     let total_samples = n_samples as f64 * n_repeats as f64;
-    let total_time = (t1 - t0) as f64 / 1e9;
+    let total_time = elapsed_time.as_nanos() as f64 / 1e9;
     let throughput = total_samples / total_time;
     println!("i16:     {} blocks of {} samples, {:.2}Msps",
              n_repeats, n_samples, throughput / 1000000.0_f64);
@@ -49,13 +48,13 @@ fn bench_complex() {
         x.push(IQ{re:3, im:-3}); x.push(IQ{re:7, im:-7});
         x.push(IQ{re:4, im:-4}); x.push(IQ{re:6, im:-6});
     }
-    let t0 = time::precise_time_ns();
+    let now = std::time::Instant::now();
     for _ in 0..n_repeats {
         cic.process(&x);
     }
-    let t1 = time::precise_time_ns();
+    let elapsed_time = now.elapsed();
     let total_samples = n_samples as f64 * n_repeats as f64;
-    let total_time = (t1 - t0) as f64 / 1e9;
+    let total_time = elapsed_time.as_nanos() as f64 / 1e9;
     let throughput = total_samples / total_time;
     println!("IQ<i16>: {} blocks of {} samples, {:.2}Msps",
              n_repeats, n_samples, throughput / 1000000.0_f64);

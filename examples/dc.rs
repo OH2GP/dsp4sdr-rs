@@ -1,7 +1,6 @@
-extern crate time;
-extern crate sdr;
+extern crate dsp4sdr;
 
-use sdr::RealFs4Downconverter;
+use dsp4sdr::RealFs4Downconverter;
 
 #[cfg_attr(test, allow(dead_code))]
 fn main() {
@@ -15,13 +14,13 @@ fn main() {
         x.push(2048-3); x.push(2048-7); x.push(2048-4); x.push(2048-6);
     }
 
-    let t0 = time::precise_time_ns();
+    let now = std::time::Instant::now();
     for _ in 0..n_repeats {
         dc.process(&x);
     }
-    let t1 = time::precise_time_ns();
+    let elapsed_time = now.elapsed();
     let total_samples = n_samples as f64 * n_repeats as f64;
-    let total_time = (t1 - t0) as f64 / 1e9;
+    let total_time = elapsed_time.as_nanos() as f64 / 1e9;
     let throughput = total_samples / total_time;
     println!("{} blocks of {} samples, {:.2}Msps",
              n_repeats, n_samples, throughput / 1000000.0_f64);
