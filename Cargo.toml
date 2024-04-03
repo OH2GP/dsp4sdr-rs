@@ -2,6 +2,7 @@
 name = "dsp4sdr"
 description = "Rust SDR DSP functionality"
 version = "0.7.1"
+edition = "2021"
 authors = ["Adam Greig <adam@adamgreig.com>"]
 homepage = "https://github.com/adamgreig/sdr-rs"
 repository = "https://github.com/adamgreig/sdr-rs"
