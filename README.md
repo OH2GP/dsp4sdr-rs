@@ -1,4 +1,4 @@
-# sdr-rs
+# dsp4sdr-rs
 
 An SDR DSP library for Rust.
 
